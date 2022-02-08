@@ -11,7 +11,7 @@ class Category extends Model
 
     protected $guarded = ['id'];
 
-    public function tree()
+    public static function tree()
     {
         $allCategories = Category::latest()->get();
 

@@ -22,7 +22,7 @@ class Category extends Model
         return $rootCategories;
     }
 
-    public function formatTree($categories, $allCategories)
+    public static function formatTree($categories, $allCategories)
     {
         foreach ($categories as $category) {
             $category->children = $allCategories->where('parent_id', $category->id)->values();

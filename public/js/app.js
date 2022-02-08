@@ -20670,7 +20670,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     saveArticle: function saveArticle() {
-      this.edit ? this.form.put(route('articles.update', {
+      this.edit ? this.form.post(route('articles.update', {
         id: this.article.data.id
       })) : this.form.post(route('articles.store'));
     }

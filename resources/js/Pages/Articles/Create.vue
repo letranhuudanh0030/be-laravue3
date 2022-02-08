@@ -142,7 +142,7 @@ export default defineComponent({
 
     methods: {
         saveArticle() {
-            this.edit ? this.form.put(route('articles.update', { id: this.article.data.id })) : this.form.post(route('articles.store'))
+            this.edit ? this.form.post(route('articles.update', { id: this.article.data.id })) : this.form.post(route('articles.store'))
         },
     },
 

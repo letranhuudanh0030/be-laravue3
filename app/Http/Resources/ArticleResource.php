@@ -28,7 +28,7 @@ class ArticleResource extends JsonResource
                 ];
             }),
 
-            'image_url' => env('APP_URL') . $this->imageUrl(),
+            'image_url' => $this->imageUrl(),
 
             $this->mergeWhen($this->created_at, function () {
                 return [

@@ -46,7 +46,7 @@ class UploadFile
                 ->append('.')
                 ->append($this->file->getClientOriginalExtension());
 
-        $this->file->storeAs($this->uploadPath, $imageName);
+        $this->file->storePubliclyAs($this->uploadPath, $imageName, 's3');
 
         return $imageName;
     }

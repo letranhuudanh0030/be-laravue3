@@ -17,8 +17,8 @@ mix.js('resources/js/app.js', 'public/js')
         require('postcss-import'),
         require('tailwindcss'),
     ])
-    .webpackConfig(require('./webpack.config'));
-    // .browserSync('http://be-blog.test');
+    .webpackConfig(require('./webpack.config'))
+    .browserSync('http://be-blog.test');
 
 if (mix.inProduction()) {
     mix.version();

@@ -21376,10 +21376,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_Card_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Components/Card.vue */ "./resources/js/Components/Card.vue");
 /* harmony import */ var _Components_Breadcrumbs_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/Components/Breadcrumbs.vue */ "./resources/js/Components/Breadcrumbs.vue");
 /* harmony import */ var _Pages_Categories_Partials_Category_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/Pages/Categories/Partials/Category.vue */ "./resources/js/Pages/Categories/Partials/Category.vue");
+/* harmony import */ var _Components_SimplePagination_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/Components/SimplePagination.vue */ "./resources/js/Components/SimplePagination.vue");
 
  // import EditBtn from '@/Components/EditBtn.vue'
 // import DeleteBtn from '@/Components/DeleteBtn.vue'
 // import AppTable from '@/Components/Table.vue'
+
 
 
 
@@ -21400,7 +21402,8 @@ __webpack_require__.r(__webpack_exports__);
     AppContainer: _Components_Container_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
     AppCard: _Components_Card_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
     AppBreadcrumbs: _Components_Breadcrumbs_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
-    Category: _Pages_Categories_Partials_Category_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
+    Category: _Pages_Categories_Partials_Category_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
+    SimplePagination: _Components_SimplePagination_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
   },
   computed: {
     headers: function headers() {
@@ -26787,12 +26790,18 @@ __webpack_require__.r(__webpack_exports__);
 
 var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Add new");
 
+var _hoisted_2 = {
+  key: 0,
+  "class": "mt-4"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_AppBreadcrumbs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AppBreadcrumbs");
 
   var _component_jet_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-button");
 
   var _component_Category = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Category");
+
+  var _component_SimplePagination = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("SimplePagination");
 
   var _component_AppCard = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AppCard");
 
@@ -26831,13 +26840,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AppTable :headers=\"headers\" :items=\"categories\" :recursive=\"true\"> "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.categories.data, function (category) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Category, {
                   key: category.id,
-                  category: category
+                  category: category,
+                  items: _ctx.categories
                 }, null, 8
                 /* PROPS */
-                , ["category"]);
+                , ["category", "items"]);
               }), 128
               /* KEYED_FRAGMENT */
-              )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </AppTable> ")];
+              )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </AppTable> "), _ctx.categories.data.length > 0 && !_ctx.recursive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SimplePagination, {
+                prevUrl: _ctx.categories.links.prev,
+                nextUrl: _ctx.categories.links.next
+              }, null, 8
+              /* PROPS */
+              , ["prevUrl", "nextUrl"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
             }),
             _: 1
             /* STABLE */

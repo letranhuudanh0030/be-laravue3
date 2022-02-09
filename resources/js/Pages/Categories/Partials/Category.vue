@@ -31,6 +31,7 @@
 import EditBtn from '@/Components/EditBtn.vue'
 import DeleteBtn from '@/Components/DeleteBtn.vue'
 
+
 export default {
     components: {
         EditBtn,

@@ -22,6 +22,9 @@ class CategoryResource extends JsonResource
             'created_at_for_human' => $this->when($this->created_at, function () {
                 return $this->created_at->diffForHumans();
             }),
+            'parent' => $this->when($this->parent_id, function () {
+                return $this->parent;
+            }),
             $this->mergeWhen($this->children, function () {
                 return [
                     'children' => $this->children,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Traits\PaginateCollect;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -11,6 +12,8 @@ use Inertia\Inertia;
 
 class CategoriesController extends Controller
 {
+    use PaginateCollect;
+
     public function index()
     {
         return Inertia::render('Categories/Index', [
@@ -21,7 +24,7 @@ class CategoriesController extends Controller
     public function indexRecursive()
     {
         return Inertia::render('Categories/IndexRecursive', [
-            'categories' => CategoryResource::collection(Category::tree()),
+            'categories' => CategoryResource::collection(PaginateCollect::pagicoll(Category::tree(), 10)),
         ]);
     }
 

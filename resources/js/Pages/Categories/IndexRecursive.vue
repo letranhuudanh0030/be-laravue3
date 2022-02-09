@@ -8,8 +8,11 @@
             <jet-button :href="route('categories.create')">Add new</jet-button>
             <AppCard class="mt-4">
                 <!-- <AppTable :headers="headers" :items="categories" :recursive="true"> -->
-                    <Category v-for="category in categories.data" :key="category.id" :category="category"/>
+                <Category v-for="category in categories.data" :key="category.id" :category="category" :items="categories" />
                 <!-- </AppTable> -->
+                <div v-if="categories.data.length > 0 && !recursive" class="mt-4">
+                    <SimplePagination :prevUrl="categories.links.prev" :nextUrl="categories.links.next" />
+                </div>
             </AppCard>
         </AppContainer>
     </app-layout>
@@ -27,6 +30,7 @@ import AppContainer from '@/Components/Container.vue'
 import AppCard from '@/Components/Card.vue'
 import AppBreadcrumbs from '@/Components/Breadcrumbs.vue'
 import Category from '@/Pages/Categories/Partials/Category.vue'
+import SimplePagination from '@/Components/SimplePagination.vue'
 
 export default defineComponent({
     props: {
@@ -41,7 +45,8 @@ export default defineComponent({
         AppContainer,
         AppCard,
         AppBreadcrumbs,
-        Category
+        Category,
+        SimplePagination,
     },
 
     computed: {

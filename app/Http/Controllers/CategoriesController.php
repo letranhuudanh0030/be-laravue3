@@ -32,16 +32,30 @@ class CategoriesController extends Controller
     {
         return Inertia::render('Categories/Create', [
             'edit' => false,
-            'category' => (object) []
+            'category' => (object) [],
+        ]);
+    }
+
+    public function createRecursive(Category $category)
+    {
+        // dd($category);
+        return Inertia::render('Categories/Create', [
+            'edit' => false,
+            'category' => new CategoryResource($category),
+            'categories' => CategoryResource::collection(Category::latest()->get()),
         ]);
     }
 
     public function store(Request $request)
     {
+
+
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', Rule::unique(Category::class)],
         ]);
+
+        $data['parent_id'] = $request->parent['id'];
 
         Category::create($data);
 
@@ -52,7 +66,8 @@ class CategoriesController extends Controller
     {
         return Inertia::render('Categories/Create', [
             'edit' => true,
-            'category' => new CategoryResource($category)
+            'category' => new CategoryResource($category),
+            'categories' => CategoryResource::collection(Category::latest()->get()),
         ]);
     }
 

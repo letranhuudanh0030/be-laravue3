@@ -18,21 +18,21 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->when($this->slug, $this->slug),
-            // 'is_child' => $this->isChild(),
             'is_child' => $this->when($this->isChild(), function () {
                 return $this->isChild();
             }),
             'created_at_for_human' => $this->when($this->created_at, function () {
                 return $this->created_at->diffForHumans();
             }),
-            // 'parent' => $this->when($this->parent_id, function () {
-            //     return $this->parent;
-            // }),
+            'parent' => $this->when($this->parent_id, function () {
+                return $this->parent();
+            }),
             $this->mergeWhen($this->children, function () {
                 return [
                     'children' => $this->children,
                 ];
-            })
+            }),
+            'articles_count' => $this->articles_count
         ];
     }
 }

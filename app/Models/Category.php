@@ -13,7 +13,7 @@ class Category extends Model
 
     public static function tree()
     {
-        $allCategories = Category::latest()->get();
+        $allCategories = Category::withCount('articles')->latest()->get();
 
         $rootCategories = $allCategories->whereNull('parent_id');
 
@@ -37,5 +37,15 @@ class Category extends Model
     public function isChild()
     {
         return $this->parent_id !== null;
+    }
+
+    public function parent()
+    {
+        return Category::where('id', $this->parent_id)->first();
+    }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
     }
 }

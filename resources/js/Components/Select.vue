@@ -75,6 +75,7 @@ export default {
     mounted() {
         if(this.modelValue) {
             this.chosenOption = this.modelValue.name
+            this.$emit('update:modelValue', this.modelValue.id)
         }
     },
 
@@ -105,15 +106,8 @@ export default {
             this.searchTerm = ''
         },
 
-        handleInput(evt) {
-            // this.$emit('input', evt.target.value)
-            this.searchTerm = evt.target.value
-            console.log(evt.target.value);
-            this.showOptions = true
-        },
-
         handleClick(item) {
-            this.$emit('update:modelValue', item)
+            this.$emit('update:modelValue', item.id)
             this.chosenOption = item.name
             this.showOptions = false
         },

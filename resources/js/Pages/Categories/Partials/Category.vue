@@ -7,7 +7,7 @@
             <div class="flex flex-1 justify-between bg-gray-100 hover:bg-gray-200 border shadow rounded py-3 px-4 mb-2">
                 <div class="">
                     <span class="font-bold mr-2">{{ category.name }}</span>
-                    <span class="text-gray-500">( {{ category.created_at_for_human }} )</span>
+                    <span class="text-gray-500">( {{ category.articles_count }} Articles | {{ category.created_at_for_human }} )</span>
                 </div>
                 <div class="flex items-center justify-end space-x-2">
                     <Link :href="route('categories.create.recursive', { category: category.id })" v-tooltip:top.tooltip="'Add Category'" v-show="showAddCategory">
@@ -15,9 +15,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </Link>
-                    <div>
-                        <EditBtn :icon="'add'" :url="route('categories.edit', { category: category.id })" v-tooltip:top.tooltip="'Add Articles'" />
-                    </div>
+                    <Link :href="route('articles.show-by-category', { category: category.id })" v-tooltip:top.tooltip="'Show Articles'">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                        </svg>
+                    </Link>
                     <div>
                         <EditBtn :url="route('categories.edit', { category: category.id })" v-tooltip:top.tooltip="'Edit Category'" />
                     </div>
@@ -25,9 +27,9 @@
                         <DeleteBtn :url="route('categories.destroy', { category: category.id })" module-name="category" v-tooltip:top.tooltip="'Delete Category'" />
                     </div>
 
-                    <button v-tooltip:top.tooltip="'Drag And Drop'">
+                    <button v-tooltip:top.tooltip="'Move'">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
                         </svg>
                     </button>
 

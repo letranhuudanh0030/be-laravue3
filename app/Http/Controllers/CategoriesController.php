@@ -17,7 +17,7 @@ class CategoriesController extends Controller
     public function index()
     {
         return Inertia::render('Categories/Index', [
-            'categories' => CategoryResource::collection(Category::latest()->simplePaginate(10)),
+            'categories' => CategoryResource::collection(Category::withCount('articles')->latest()->simplePaginate(10)),
         ]);
     }
 
@@ -38,7 +38,6 @@ class CategoriesController extends Controller
 
     public function createRecursive(Category $category)
     {
-        // dd($category);
         return Inertia::render('Categories/Create', [
             'edit' => false,
             'category' => new CategoryResource($category),
@@ -53,9 +52,8 @@ class CategoriesController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', Rule::unique(Category::class)],
+            'parent_id' => ['numeric']
         ]);
-
-        $data['parent_id'] = $request->parent['id'];
 
         Category::create($data);
 
@@ -78,6 +76,9 @@ class CategoriesController extends Controller
             'slug' => ['required', 'string', Rule::unique(Category::class)->ignore($category->id)],
         ]);
 
+        if($request->parent_id){
+            $data['parent_id'] = $request->parent_id;
+        }
         $category->update($data);
 
         return redirect()->route('categories.index')->with('success', 'Category updated successfully.');

@@ -21,11 +21,32 @@ class ArticlesController extends Controller
         ]);
     }
 
+    public function showArticleByCategory(Request $request)
+    {
+
+        // dd($request->category);
+        return Inertia::render('Articles/Index', [
+            'articles' => ArticleResource::collection(Article::with(['category:id,name'])->where('category_id', $request->category)->latest()->simplePaginate(10)),
+            'category' => new CategoryResource(Category::select(['id', 'name'])->find($request->category))
+        ]);
+    }
+
     public function create(Request $request)
     {
         return Inertia::render('Articles/Create', [
             'edit' => false,
             'article' => new ArticleResource(new Article()),
+            'categories' => CategoryResource::collection(Category::select(['id', 'name'])->get())
+        ]);
+    }
+
+    public function createArticleByCategory(Request $request)
+    {
+        // dd($request->category);
+        return Inertia::render('Articles/Create', [
+            'edit' => false,
+            'article' => new ArticleResource(new Article()),
+            'category' => new CategoryResource(Category::select(['id', 'name'])->find($request->category)),
             'categories' => CategoryResource::collection(Category::select(['id', 'name'])->get())
         ]);
     }

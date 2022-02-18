@@ -2,6 +2,7 @@
     <app-layout title="Articles">
         <template #header>
             <AppBreadcrumbs :items="breadcrumbs" />
+
         </template>
         <AppContainer>
             <AppCard class="mt-4">
@@ -14,13 +15,14 @@
                     <!-- Category -->
                     <div class="mt-4">
                         <jet-label for="category" value="Category" />
-                        <select name="category" id="category" class="block w-full form-input" v-model="form.category_id">
+                        <AppSelect :data="categories.data" :inputId="'category'" :inputClass="'w-full'" :placeholder="'Search category here...'" v-model="form.category_id" autocomplete="off" />
+                        <!-- <select name="category" id="category" class="block w-full form-input" v-model="form.category_id">
                             <option value="">Select</option>
                             <option v-for="category in categories.data" :key="category.id" :value="category.id">
                                 {{ category.name }}
                             </option>
-                        </select>
-                        <jet-input-error :message="form.errors.category_id" class="mt-2" />
+                        </select> -->
+                        <jet-input-error :message="form.errors.category" class="mt-2" />
                     </div>
 
                     <!-- Title -->
@@ -75,6 +77,7 @@ import AppCard from '@/Components/Card.vue'
 import AppBreadcrumbs from '@/Components/Breadcrumbs.vue'
 import AppCkeditor from '@/Components/Ckeditor.vue'
 import AppImage from '@/Components/Image.vue'
+import AppSelect from '@/Components/Select.vue'
 
 export default defineComponent({
     props: {
@@ -86,6 +89,7 @@ export default defineComponent({
                 }
             },
         },
+        category: Object,
         edit: Boolean,
         article: Object,
     },
@@ -102,6 +106,7 @@ export default defineComponent({
         AppBreadcrumbs,
         AppCkeditor,
         AppImage,
+        AppSelect
     },
 
     data() {
@@ -109,7 +114,7 @@ export default defineComponent({
             imageUrl: '',
             form: this.$inertia.form({
                 _method: this.edit ? 'PUT' : '',
-                category_id: '',
+                category_id: this.category ? this.category.data : '',
                 image: '',
                 title: '',
                 slug: '',
@@ -148,7 +153,7 @@ export default defineComponent({
 
     mounted() {
         if (this.edit) {
-            this.form.category_id = this.article.data.category_id
+            this.form.category_id = this.article.data
             this.form.title = this.article.data.title
             this.form.slug = this.article.data.slug
         }

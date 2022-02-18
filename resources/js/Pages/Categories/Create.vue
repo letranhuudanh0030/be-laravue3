@@ -23,24 +23,7 @@
                     <!-- Category Parent -->
                     <div class="mt-4" v-if="category.data.id">
                         <jet-label for="Parent" value="Parent" />
-                        <AppSelect :data="categories.data" :inputId="'parent'" :inputClass="'w-full'" :placeholder="'Search for category...'" v-model="form.parent" autocomplete="off" />
-
-                        <!-- <AppSingleSelect
-                            v-if="true"
-                            name="foo"
-                            option-label="name"
-                            option-key="id"
-                            v-model="form.parent"
-                            :options="categories.data"
-                            you-like-bootstrap="yes"
-                            :classes="{
-                                input: 'form-control',
-                                wrapper: 'single-select-wrapper',
-                                icon: 'icon',
-                            }"
-                            :required="true"
-                            placeholder="find me"
-                        ></AppSingleSelect> -->
+                        <AppSelect :data="categories.data" :inputId="'parent'" :inputClass="'w-full'" :placeholder="'Is parent'" v-model="form.parent_id" autocomplete="off" />
                     </div>
 
                     <div class="mt-4">
@@ -74,7 +57,6 @@ import AppContainer from '@/Components/Container.vue'
 import AppCard from '@/Components/Card.vue'
 import AppBreadcrumbs from '@/Components/Breadcrumbs.vue'
 import AppSelect from '@/Components/Select.vue'
-import AppSingleSelect from '@/Components/SingleSelect.vue'
 
 export default defineComponent({
     props: {
@@ -95,7 +77,6 @@ export default defineComponent({
         AppBreadcrumbs,
         JetCheckbox,
         AppSelect,
-        AppSingleSelect,
     },
 
     data() {
@@ -103,7 +84,7 @@ export default defineComponent({
             form: this.$inertia.form({
                 name: '',
                 slug: '',
-                parent: this.category.data,
+                parent_id: this.edit ? this.category.data.parent : this.category.data,
             }),
         }
     },
@@ -138,7 +119,7 @@ export default defineComponent({
         if (this.edit) {
             this.form.name = this.category.data.name
             this.form.slug = this.category.data.slug
-            this.form.parent = this.category.data
+            this.form.parent_id = this.category.data
         }
     },
 })

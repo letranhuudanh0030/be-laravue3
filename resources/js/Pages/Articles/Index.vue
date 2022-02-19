@@ -11,11 +11,11 @@
                 <h2 v-if="category" class="font-bold text-2xl text-gray-800 leading-tight ml-4 uppercase">
                     Category: <span class="text-indigo-500">{{ category.data.name }}</span>
                 </h2>
-                <jet-input id="search" type="text" v-model="searchTerm" placeholder="Search here..." autocomplete="search" />
+                <jet-input id="search" type="text" v-model="searchTerm" @keyup="search" placeholder="Search here..." autocomplete="search" />
             </div>
             <AppCard class="mt-4">
                 <AppTable :headers="headers" :items="articles">
-                    <tr v-for="article in searchResults" :key="article.id">
+                    <tr v-for="article in articles.data" :key="article.id">
                         <td>{{ article.title }}</td>
                         <td>{{ article.category.name }}</td>
                         <td>{{ article.created_at_for_human }}</td>
@@ -62,6 +62,7 @@ export default defineComponent({
     data() {
         return {
             searchTerm: '',
+            typing: false,
         }
     },
 
@@ -91,13 +92,15 @@ export default defineComponent({
             ]
         },
 
-        watch: {
-            searchTerm() {},
-        },
-
         searchResults() {
             return this.articles.data.filter((article) => article.title.toLowerCase().includes(this.searchTerm.toLowerCase()))
         },
+    },
+
+    methods: {
+        search: _.debounce(function () {
+            this.$inertia.replace(route('articles.search', { searchTerm: this.searchTerm }))
+        }, 300),
     },
 })
 </script>

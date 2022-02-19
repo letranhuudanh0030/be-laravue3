@@ -1,4 +1,4 @@
-export function strSlug(string) {
+export const strSlug = (string) => {
     return string
         .replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a')
         .replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e')
@@ -13,5 +13,7 @@ export function strSlug(string) {
         .replace(/-+$/g, '')
         .replace(/--+/g, '-')
         .toLowerCase()
-        .trim();
+        .trim()
 }
+
+export default { strSlug }

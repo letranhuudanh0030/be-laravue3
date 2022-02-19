@@ -31,6 +31,13 @@ class ArticlesController extends Controller
         ]);
     }
 
+    public function search(Request $request)
+    {
+        return Inertia::render('Articles/Index', [
+            'articles' => ArticleResource::collection(Article::with(['category:id,name'])->where('title', 'like', "%$request->searchTerm%")->latest()->simplePaginate(10)->appends($request->all())),
+        ]);
+    }
+
     public function create(Request $request)
     {
         return Inertia::render('Articles/Create', [

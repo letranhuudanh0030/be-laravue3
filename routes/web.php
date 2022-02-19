@@ -22,21 +22,22 @@ Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::controller(SettingsController::class)->group(function () {
-            Route::get('settings', 'create')->name('settings.create');
-            Route::post('settings/save-hero','saveHero')->name('settings.save-hero');
-            Route::post('settings/save-about','saveAbout')->name('settings.save-about');
-            Route::post('settings/save-contact','saveContact')->name('settings.save-contact');
+        Route::controller(SettingsController::class)->prefix('settings')->group(function () {
+            Route::get('/', 'create')->name('settings.create');
+            Route::post('save-hero', 'saveHero')->name('settings.save-hero');
+            Route::post('save-about', 'saveAbout')->name('settings.save-about');
+            Route::post('save-contact', 'saveContact')->name('settings.save-contact');
         });
 
-        Route::controller(CategoriesController::class)->group(function () {
-            Route::get('categories/index-recursive', 'indexRecursive')->name('categories.index.recursive');
-            Route::get('categories/create-recursive/{category?}','createRecursive')->name('categories.create.recursive');
+        Route::controller(CategoriesController::class)->prefix('categories')->group(function () {
+            Route::get('index-recursive', 'indexRecursive')->name('categories.index.recursive');
+            Route::get('create-recursive/{category?}', 'createRecursive')->name('categories.create.recursive');
         });
 
-        Route::controller(ArticlesController::class)->group(function () {
-            Route::get('show-article-by-category/{category}','showArticleByCategory')->name('articles.show-by-category');
-            Route::get('create-article-by-category/{category}','createArticleByCategory')->name('articles.create-by-category');
+        Route::controller(ArticlesController::class)->prefix('articles')->group(function () {
+            Route::get('show-article-by-category/{category}', 'showArticleByCategory')->name('articles.show-by-category');
+            Route::get('create-article-by-category/{category}', 'createArticleByCategory')->name('articles.create-by-category');
+            Route::get('search', 'search')->name('articles.search');
         });
 
         Route::resources([

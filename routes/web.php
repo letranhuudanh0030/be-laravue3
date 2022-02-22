@@ -20,7 +20,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::controller(SettingsController::class)->prefix('settings')->group(function () {
             Route::get('/', 'create')->name('settings.create');

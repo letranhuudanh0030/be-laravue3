@@ -16,7 +16,7 @@
                     </Link>
                 </div>
                 <Category v-for="category in categories.data" :key="category.id" :category="category" :items="categories" :showAddCategory="showAddCategory" />
-                <div v-if="categories.data.length > 0 && !recursive" class="mt-4">
+                <div v-if="categories.data.length > 0 && !recursive && categories.links" class="mt-4">
                     <SimplePagination :prevUrl="categories.links.prev" :nextUrl="categories.links.next" />
                 </div>
             </AppCard>

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Category\StoreCategoryRequest;
+use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Repositories\CategoryRepository;
 use App\Traits\Paginateable;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -17,14 +20,14 @@ class CategoriesController extends Controller
     public function index()
     {
         return Inertia::render('Categories/Index', [
-            'categories' => CategoryResource::collection(Category::withCount('articles')->latest()->simplePaginate(10)),
+            'categories' => CategoryRepository::list(10, ['articles']),
         ]);
     }
 
     public function indexRecursive()
     {
         return Inertia::render('Categories/IndexRecursive', [
-            'categories' => CategoryResource::collection(Paginateable::pagicoll(Category::tree(), 10)),
+            'categories' => CategoryRepository::treeList(10, ['articles']),
         ]);
     }
 
@@ -33,6 +36,7 @@ class CategoriesController extends Controller
         return Inertia::render('Categories/Create', [
             'edit' => false,
             'category' => (object) [],
+            'categories' => CategoryRepository::list(),
         ]);
     }
 
@@ -40,23 +44,14 @@ class CategoriesController extends Controller
     {
         return Inertia::render('Categories/Create', [
             'edit' => false,
-            'category' => new CategoryResource($category),
-            'categories' => CategoryResource::collection(Category::latest()->get()),
+            'category' => CategoryRepository::find($category),
+            'categories' => CategoryRepository::list(),
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-
-
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', Rule::unique(Category::class)],
-            'parent_id' => ['numeric']
-        ]);
-
-        Category::create($data);
-
+        CategoryRepository::create($request->all());
         return redirect()->route('categories.index')->with('success', 'Category saved successfully.');
     }
 
@@ -69,17 +64,9 @@ class CategoriesController extends Controller
         ]);
     }
 
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', Rule::unique(Category::class)->ignore($category->id)],
-        ]);
-
-        if($request->parent_id){
-            $data['parent_id'] = $request->parent_id;
-        }
-        $category->update($data);
+        $category->update($request->all());
 
         return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
     }

@@ -20,10 +20,17 @@
                         <jet-input-error :message="form.errors.slug" class="mt-2" />
                     </div>
 
+                    <!-- Check Is Parent -->
+                    <div class="mt-4 flex flex-wrap items-center">
+                        <jet-label value="Check is parent" class="w-full" />
+                        <JetCheckbox id="isparent" v-model:checked="isParent" />
+                        <label for="isparent" class="ml-2">Is Parent</label>
+                    </div>
+
                     <!-- Category Parent -->
-                    <div class="mt-4" v-if="category.data.id">
+                    <div class="mt-4" v-if="category && !isParent">
                         <jet-label for="Parent" value="Parent" />
-                        <AppSelect :data="categories.data" :inputId="'parent'" :inputClass="'w-full'" :placeholder="'Is parent'" v-model="form.parent_id" autocomplete="off" />
+                        <AppSelect :data="categories.data" :inputId="'parent'" :inputClass="'w-full'" :placeholder="'Search category here...'" v-model="form.parent_id" autocomplete="off" />
                     </div>
 
                     <div class="mt-4">
@@ -81,6 +88,7 @@ export default defineComponent({
 
     data() {
         return {
+            isParent: this.category.data.parent ? false : true,
             form: this.$inertia.form({
                 name: '',
                 slug: '',
@@ -107,11 +115,14 @@ export default defineComponent({
         'form.name'(name) {
             this.form.slug = strSlug(name)
         },
+        isParent() {
+            this.form.parent_id = this.isParent ? null : this.edit ? this.category.data.parent : this.category.data
+        },
     },
 
     methods: {
         saveCategory() {
-            this.edit ? this.form.put(route('categories.update', { id: this.category.data.id })) : this.form.post(route('categories.store'))
+            this.edit ? this.form.put(route('categories.update', { category: this.category.data.id })) : this.form.post(route('categories.store'))
         },
     },
 
@@ -119,7 +130,6 @@ export default defineComponent({
         if (this.edit) {
             this.form.name = this.category.data.name
             this.form.slug = this.category.data.slug
-            this.form.parent_id = this.category.data
         }
     },
 })

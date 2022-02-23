@@ -53,7 +53,6 @@ export default {
             showOptions: false,
             chosenOption: '',
             searchTerm: '',
-
         }
     },
 
@@ -68,12 +67,10 @@ export default {
             // })
             return this.resultQuery()
         },
-
-
     },
 
     mounted() {
-        if(this.modelValue) {
+        if (this.modelValue) {
             this.chosenOption = this.modelValue.name
             this.$emit('update:modelValue', this.modelValue.id)
         }
@@ -81,13 +78,11 @@ export default {
 
     watch: {
         chosenOption(name) {
-
             this.searchTerm = name
-        }
+        },
     },
 
     methods: {
-
         resultQuery() {
             if (this.searchTerm) {
                 return this.data.filter((item) => {

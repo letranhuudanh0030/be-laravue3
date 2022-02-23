@@ -11,9 +11,11 @@ class Category extends Model
 
     protected $guarded = ['id'];
 
-    public static function tree()
+    public static function tree($withCount = null)
     {
-        $allCategories = Category::withCount('articles')->latest()->get();
+        $allCategories = Category::when($withCount, function ($q, $withCount) {
+            return $q->withCount($withCount);
+        })->latest()->get();
 
         $rootCategories = $allCategories->whereNull('parent_id');
 

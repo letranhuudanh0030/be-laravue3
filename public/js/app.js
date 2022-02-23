@@ -21393,6 +21393,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      isParent: this.category.data.parent ? false : true,
       form: this.$inertia.form({
         name: '',
         slug: '',
@@ -21413,12 +21414,15 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     'form.name': function formName(name) {
       this.form.slug = (0,_helpers_js__WEBPACK_IMPORTED_MODULE_8__.strSlug)(name);
+    },
+    isParent: function isParent() {
+      this.form.parent_id = this.isParent ? null : this.edit ? this.category.data.parent : this.category.data;
     }
   },
   methods: {
     saveCategory: function saveCategory() {
       this.edit ? this.form.put(route('categories.update', {
-        id: this.category.data.id
+        category: this.category.data.id
       })) : this.form.post(route('categories.store'));
     }
   },
@@ -21426,7 +21430,6 @@ __webpack_require__.r(__webpack_exports__);
     if (this.edit) {
       this.form.name = this.category.data.name;
       this.form.slug = this.category.data.slug;
-      this.form.parent_id = this.category.data;
     }
   }
 }));
@@ -26834,22 +26837,33 @@ var _hoisted_1 = {
   "class": "mt-4"
 };
 var _hoisted_2 = {
+  "class": "mt-4 flex flex-wrap items-center"
+};
+
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "isparent",
+  "class": "ml-2"
+}, "Is Parent", -1
+/* HOISTED */
+);
+
+var _hoisted_4 = {
   key: 0,
   "class": "mt-4"
 };
-var _hoisted_3 = {
-  "class": "mt-4"
-};
-var _hoisted_4 = {
-  key: 0
-};
 var _hoisted_5 = {
-  key: 1
+  "class": "mt-4"
 };
 var _hoisted_6 = {
   key: 0
 };
 var _hoisted_7 = {
+  key: 1
+};
+var _hoisted_8 = {
+  key: 0
+};
+var _hoisted_9 = {
   key: 1
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -26860,6 +26874,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_jet_input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-input");
 
   var _component_jet_input_error = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-input-error");
+
+  var _component_JetCheckbox = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("JetCheckbox");
 
   var _component_AppSelect = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AppSelect");
 
@@ -26891,7 +26907,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-                onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+                onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
                   return _ctx.saveCategory && _ctx.saveCategory.apply(_ctx, arguments);
                 }, ["prevent"]))
               }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Name "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
@@ -26932,27 +26948,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "class": "mt-2"
               }, null, 8
               /* PROPS */
-              , ["message"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Parent "), _ctx.category.data.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+              , ["message"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Check Is Parent "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
+                value: "Check is parent",
+                "class": "w-full"
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_JetCheckbox, {
+                id: "isparent",
+                checked: _ctx.isParent,
+                "onUpdate:checked": _cache[2] || (_cache[2] = function ($event) {
+                  return _ctx.isParent = $event;
+                })
+              }, null, 8
+              /* PROPS */
+              , ["checked"]), _hoisted_3]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Parent "), _ctx.category && !_ctx.isParent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_label, {
                 "for": "Parent",
                 value: "Parent"
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppSelect, {
                 data: _ctx.categories.data,
                 inputId: 'parent',
                 inputClass: 'w-full',
-                placeholder: 'Is parent',
+                placeholder: 'Search category here...',
                 modelValue: _ctx.form.parent_id,
-                "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
                   return _ctx.form.parent_id = $event;
                 }),
                 autocomplete: "off"
               }, null, 8
               /* PROPS */
-              , ["data", "modelValue"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_action_message, {
+              , ["data", "placeholder", "modelValue"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_action_message, {
                 on: _ctx.form.recentlySuccessful,
                 "class": "mr-3"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_ctx.edit ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_4, "Updated.")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_5, "Saved."))];
+                  return [_ctx.edit ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_6, "Updated.")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, "Saved."))];
                 }),
                 _: 1
                 /* STABLE */
@@ -26966,7 +26993,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 disabled: _ctx.form.processing
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_ctx.edit ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_6, "Update")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, "Save"))];
+                  return [_ctx.edit ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "Update")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, "Save"))];
                 }),
                 _: 1
                 /* STABLE */
@@ -27229,7 +27256,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 , ["category", "items", "showAddCategory"]);
               }), 128
               /* KEYED_FRAGMENT */
-              )), _ctx.categories.data.length > 0 && !_ctx.recursive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SimplePagination, {
+              )), _ctx.categories.data.length > 0 && !_ctx.recursive && _ctx.categories.links ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SimplePagination, {
                 prevUrl: _ctx.categories.links.prev,
                 nextUrl: _ctx.categories.links.next
               }, null, 8

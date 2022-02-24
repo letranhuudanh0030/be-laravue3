@@ -21426,7 +21426,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    if (this.category.data.id == null) {
+    if (this.category.data != null && this.category.data.id == null) {
       this.isParent = true;
     }
 

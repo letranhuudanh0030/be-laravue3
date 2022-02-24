@@ -127,7 +127,7 @@ export default defineComponent({
     },
 
     mounted() {
-        if (this.category.data.id == null) {
+        if (this.category.data != null && this.category.data.id == null) {
             this.isParent = true
         }
 

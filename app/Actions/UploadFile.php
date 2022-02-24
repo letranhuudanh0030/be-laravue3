@@ -36,15 +36,15 @@ class UploadFile
 
     public function execute(): ?string
     {
-        if(!$this->file) {
+        if (!$this->file) {
             return null;
         }
 
         $imageName = (string) Str::of($this->file->getClientOriginalName())
-                ->before('.')
-                ->slug()
-                ->append('.')
-                ->append($this->file->getClientOriginalExtension());
+            ->before('.')
+            ->slug()
+            ->append('.')
+            ->append($this->file->getClientOriginalExtension());
 
         $this->file->storePubliclyAs($this->uploadPath, $imageName, 's3');
 

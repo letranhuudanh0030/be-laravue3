@@ -88,7 +88,7 @@ export default defineComponent({
 
     data() {
         return {
-            isParent: this.category.data.parent ? false : true,
+            isParent: this.category.data != null ? (this.category.data.parent || !this.edit ? false : true) : false,
             form: this.$inertia.form({
                 name: '',
                 slug: '',
@@ -127,6 +127,10 @@ export default defineComponent({
     },
 
     mounted() {
+        if (this.category.data.id == null) {
+            this.isParent = true
+        }
+
         if (this.edit) {
             this.form.name = this.category.data.name
             this.form.slug = this.category.data.slug

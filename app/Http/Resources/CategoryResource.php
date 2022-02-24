@@ -27,6 +27,7 @@ class CategoryResource extends JsonResource
             'parent' => $this->when($this->parent_id, function () {
                 return $this->parent();
             }),
+            // 'parent' => $this->parent(),
             $this->mergeWhen($this->children, function () {
                 return [
                     'children' => $this->children,

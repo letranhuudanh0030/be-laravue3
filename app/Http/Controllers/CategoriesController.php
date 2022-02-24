@@ -59,8 +59,8 @@ class CategoriesController extends Controller
     {
         return Inertia::render('Categories/Create', [
             'edit' => true,
-            'category' => new CategoryResource($category),
-            'categories' => CategoryResource::collection(Category::latest()->get()),
+            'category' => CategoryRepository::find($category),
+            'categories' => CategoryRepository::list(),
         ]);
     }
 

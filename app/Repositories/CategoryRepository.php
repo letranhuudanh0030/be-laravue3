@@ -11,11 +11,14 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     use Paginateable;
 
-    public static function list($limit = null, $withCount = null)
+    public static function list($limit = null, $withCount = null, $select = null)
     {
         $list =
             Category::when($withCount, function ($q, $withCount) {
                 return $q->withCount($withCount);
+            })
+            ->when($select, function ($q, $select) {
+                return $q->select($select);
             })
             ->latest()
             ->when($limit, function ($q, $limit) {
@@ -40,6 +43,13 @@ class CategoryRepository implements CategoryRepositoryInterface
     public static function find($item)
     {
         return new CategoryResource($item);
+    }
+
+    public static function findById($id, $select = null)
+    {
+        return new CategoryResource(Category::when($select, function ($q, $select) {
+            return $q->select($select);
+        })->find($id));
     }
 
     public static function create($data)

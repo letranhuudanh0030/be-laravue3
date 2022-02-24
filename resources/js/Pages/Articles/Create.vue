@@ -2,7 +2,6 @@
     <app-layout title="Articles">
         <template #header>
             <AppBreadcrumbs :items="breadcrumbs" />
-
         </template>
         <AppContainer>
             <AppCard class="mt-4">
@@ -106,7 +105,7 @@ export default defineComponent({
         AppBreadcrumbs,
         AppCkeditor,
         AppImage,
-        AppSelect
+        AppSelect,
     },
 
     data() {
@@ -153,7 +152,6 @@ export default defineComponent({
 
     mounted() {
         if (this.edit) {
-            this.form.category_id = this.article.data
             this.form.title = this.article.data.title
             this.form.slug = this.article.data.slug
         }

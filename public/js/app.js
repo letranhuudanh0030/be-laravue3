@@ -20785,7 +20785,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     if (this.edit) {
-      this.form.category_id = this.article.data;
       this.form.title = this.article.data.title;
       this.form.slug = this.article.data.slug;
     }
@@ -21393,7 +21392,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      isParent: this.category.data.parent ? false : true,
+      isParent: this.category.data != null ? this.category.data.parent || !this.edit ? false : true : false,
       form: this.$inertia.form({
         name: '',
         slug: '',
@@ -21427,6 +21426,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    if (this.category.data.id == null) {
+      this.isParent = true;
+    }
+
     if (this.edit) {
       this.form.name = this.category.data.name;
       this.form.slug = this.category.data.slug;

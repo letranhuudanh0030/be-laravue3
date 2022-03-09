@@ -101,5 +101,38 @@
         components: {
             JetApplicationLogo,
         },
+
+        beforeCreate(){
+            console.log(`the component is now beforeCreate.`)
+        },
+
+        created(){
+            console.log(`the component is now created.`)
+        },
+
+        beforeMount(){
+            console.log(`the component is now beforeMount.`)
+        },
+
+        mounted() {
+            console.log(`the component is now mounted.`)
+        },
+
+        beforeUpdate() {
+            console.log(`the component is now beforeUpdate.`)
+        },
+
+        updated() {
+            console.log(`the component is now updated.`)
+        },
+
+        beforeUnmount() {
+            console.log(`the component is now beforeUnmount.`)
+        },
+
+        unmounted() {
+            console.log(`the component is now unmounted.`)
+        },
+
     })
 </script>

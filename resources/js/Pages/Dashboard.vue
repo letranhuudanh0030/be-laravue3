@@ -9,6 +9,10 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <!-- <welcome /> -->
                     The dashboard page content
+                    <div class="px-4">
+                        <button class="bg-gray-400 px-6 py-2 round " @click="toggle">Toggle</button>
+                        <Welcome v-if="show" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -27,6 +31,12 @@ export default defineComponent({
         Welcome,
         AppBreadcrumbs,
     },
+
+    data() {
+        return {
+            show: false
+        }
+    },
     computed: {
         breadcrumbs() {
             return [
@@ -36,5 +46,10 @@ export default defineComponent({
             ]
         },
     },
+    methods: {
+        toggle() {
+            this.show = !this.show
+        }
+    }
 })
 </script>

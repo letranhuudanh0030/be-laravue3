@@ -18,10 +18,17 @@ use Inertia\Inertia;
 
 class ArticlesController extends Controller
 {
+    private $article, $category;
+
+    function __construct(ArticleRepository $article, CategoryRepository $category){
+        $this->article = $article;
+        $this->category = $category;
+    }
+
     public function index()
     {
         return Inertia::render('Articles/Index', [
-            'articles' => ArticleRepository::list(10, ['category:id,name']),
+            'articles' => $this->article->list(10, ['category:id,name']),
         ]);
     }
 
@@ -30,17 +37,17 @@ class ArticlesController extends Controller
 
         // dd($request->category);
         return Inertia::render('Articles/Index', [
-            'articles' => ArticleRepository::list(10, ['category:id,name'], [
+            'articles' => $this->article->list(10, ['category:id,name'], [
                 ['category_id', '=', $request->category],
             ]),
-            'category' => CategoryRepository::findById($request->category, ['id', 'name'])
+            'category' => $this->category->findById($request->category, ['id', 'name'])
         ]);
     }
 
     public function search(Request $request)
     {
         return Inertia::render('Articles/Index', [
-            'articles' => ArticleRepository::list(10, ['category:id,name'], [
+            'articles' => $this->article->list(10, ['category:id,name'], [
                 ['title', 'like', "%$request->searchTerm%"],
             ]),
         ]);
@@ -50,8 +57,8 @@ class ArticlesController extends Controller
     {
         return Inertia::render('Articles/Create', [
             'edit' => false,
-            'article' => ArticleRepository::find(new Article()),
-            'categories' => CategoryRepository::list(null, null, ['id', 'name'])
+            'article' => $this->article->find(new Article()),
+            'categories' => $this->category->list(null, null, ['id', 'name'])
         ]);
     }
 
@@ -59,9 +66,9 @@ class ArticlesController extends Controller
     {
         return Inertia::render('Articles/Create', [
             'edit' => false,
-            'article' => ArticleRepository::find(new Article()),
-            'category' => CategoryRepository::findById($request->category, ['id', 'name']),
-            'categories' => CategoryRepository::list(null, null, ['id', 'name'])
+            'article' => $this->article->find(new Article()),
+            'category' => $this->category->findById($request->category, ['id', 'name']),
+            'categories' => $this->category->list(null, null, ['id', 'name'])
         ]);
     }
 
@@ -81,9 +88,9 @@ class ArticlesController extends Controller
     {
         return Inertia::render('Articles/Create', [
             'edit' => true,
-            'article' => ArticleRepository::find($article),
-            'category' => CategoryRepository::findById($article->category_id, ['id', 'name']),
-            'categories' => CategoryRepository::list(null, null, ['id', 'name'])
+            'article' => $this->article->find($article),
+            'category' => $this->category->findById($article->category_id, ['id', 'name']),
+            'categories' => $this->category->list(null, null, ['id', 'name'])
         ]);
     }
 

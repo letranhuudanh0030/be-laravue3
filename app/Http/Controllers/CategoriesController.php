@@ -17,17 +17,34 @@ class CategoriesController extends Controller
 {
     use Paginateable;
 
+    private $category;
+
+    function __construct(CategoryRepository $category){
+        $this->category = $category;
+    }
+
     public function index()
     {
         return Inertia::render('Categories/Index', [
-            'categories' => CategoryRepository::list(10, ['articles']),
+            'categories' => $this->category->list(10, ['articles']),
         ]);
     }
 
     public function indexRecursive()
     {
+        // $parent_ids = Category::select('parent_id')->distinct()->get()->toArray();
+
+        // foreach ($parent_ids as $id){
+        //     $categories = Category::where('parent_id', $id['parent_id'])->get();
+        //     foreach ($categories as $key => $category){
+        //         $category->update(['sort_order' => $key]);
+        //     }
+        // }
+
+
+
         return Inertia::render('Categories/IndexRecursive', [
-            'categories' => CategoryRepository::treeList(10, ['articles']),
+            'categories' => $this->category->treeList(10, ['articles']),
         ]);
     }
 
@@ -36,7 +53,7 @@ class CategoriesController extends Controller
         return Inertia::render('Categories/Create', [
             'edit' => false,
             'category' => (object) [],
-            'categories' => CategoryRepository::list(),
+            'categories' => $this->category->list(),
         ]);
     }
 
@@ -44,23 +61,24 @@ class CategoriesController extends Controller
     {
         return Inertia::render('Categories/Create', [
             'edit' => false,
-            'category' => CategoryRepository::find($category),
-            'categories' => CategoryRepository::list(),
+            'category' => $this->category->find($category),
+            'categories' => $this->category->list(),
         ]);
     }
 
     public function store(StoreCategoryRequest $request)
     {
-        CategoryRepository::create($request->all());
-        return redirect()->route('categories.index')->with('success', 'Category saved successfully.');
+        // dd($request->all());
+        $this->category->create($request->validated());
+        return redirect()->route('categories.index.recursive')->with('success', 'Category saved successfully.');
     }
 
     public function edit(Category $category)
     {
         return Inertia::render('Categories/Create', [
             'edit' => true,
-            'category' => CategoryRepository::find($category),
-            'categories' => CategoryRepository::list(),
+            'category' => $this->category->find($category),
+            'categories' => $this->category->list(),
         ]);
     }
 
@@ -68,13 +86,13 @@ class CategoriesController extends Controller
     {
         $category->update($request->all());
 
-        return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
+        return redirect()->route('categories.index.recursive')->with('success', 'Category updated successfully.');
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
 
-        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
+        return redirect()->route('categories.index.recursive')->with('success', 'Category deleted successfully.');
     }
 }

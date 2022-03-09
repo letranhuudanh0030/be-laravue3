@@ -31,7 +31,7 @@ export default {
             type: String,
         },
         moduleName: {
-            required: true,
+            required: false,
             type: String,
         },
     },

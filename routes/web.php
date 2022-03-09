@@ -17,6 +17,15 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/sales', function(){
+    $report = new Acme\SingleResponsibility\Reporting\SalesReporter(new Acme\SingleResponsibility\Repositories\SalesRepository);
+
+    $begin = Carbon\Carbon::now()->subDays(10);
+    $end = Carbon\Carbon::now();
+
+    return $report->between($begin, $end, new Acme\SingleResponsibility\Reporting\HtmlOutput);
+});
+
 Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->group(function () {

@@ -23,6 +23,23 @@
 
 <script>
 export default {
+    data() {
+        return {
+            timerInterval: null,
+        }
+    },
+
+    mounted() {
+        this.timerInterval = setTimeout(() => {
+            this.$page.props.flash.success = ''
+            this.$page.props.flash.failure = ''
+        }, 3000)
+    },
+
+    unmounted() {
+        clearTimeout(this.timerInterval)
+    },
+
     methods: {
         hideFlashMessage() {
             this.$page.props.flash.success = ''

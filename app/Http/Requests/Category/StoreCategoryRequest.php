@@ -28,7 +28,7 @@ class StoreCategoryRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', Rule::unique(Category::class)],
-            'parent_id' => ['numeric']
+            'parent_id' => []
         ];
     }
 }

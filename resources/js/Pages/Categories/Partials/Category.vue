@@ -7,14 +7,20 @@
             <div class="flex flex-1 justify-between bg-gray-100 hover:bg-gray-200 border shadow rounded py-3 px-4 mb-2">
                 <div class="">
                     <span class="font-bold mr-2">{{ category.name }}</span>
-                    <span class="text-gray-500">( {{ category.articles_count }} Articles | {{ category.created_at_for_human }} )</span>
+                    <span class="text-gray-500">( {{ category.articles_count }} Articles | {{ category.created_at_for_human }} | Sort order: {{ category.sort_order }} )</span>
                 </div>
                 <div class="flex items-center justify-end space-x-2">
-                    <Link :href="route('categories.create.recursive', { category: category.id })" v-tooltip:top.tooltip="'Add Category'" v-show="showAddCategory">
+                    <Link :href="route('categories.create.recursive', { category: category.id })" v-tooltip:top.tooltip="'Add Child Category'" v-show="showAddCategory">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </Link>
+                    <Link :href="route('categories.create.recursive', { category: category.id })" v-tooltip:top.tooltip="'Add Below Category'" v-show="showAddCategory">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
+                        </svg>
+                    </Link>
+
                     <Link :href="route('articles.show-by-category', { category: category.id })" v-tooltip:top.tooltip="'Show Articles'">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />

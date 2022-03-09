@@ -271,6 +271,9 @@ export default defineComponent({
         }
     },
 
+
+
+
     methods: {
         switchToTeam(team) {
             this.$inertia.put(

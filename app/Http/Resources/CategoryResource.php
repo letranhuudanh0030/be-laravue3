@@ -33,7 +33,8 @@ class CategoryResource extends JsonResource
                     'children' => $this->children,
                 ];
             }),
-            'articles_count' => $this->articles_count
+            'articles_count' => $this->articles_count,
+            'sort_order' => $this->sort_order
         ];
     }
 }

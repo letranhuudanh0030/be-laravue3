@@ -17,7 +17,7 @@ class Category extends Model
             return $q->withCount($withCount);
         })->latest()->get();
 
-        $rootCategories = $allCategories->whereNull('parent_id');
+        $rootCategories = $allCategories->whereNull('parent_id')->sortByDesc('sort_order');
 
         self::formatTree($rootCategories, $allCategories);
 
@@ -27,7 +27,7 @@ class Category extends Model
     public static function formatTree($categories, $allCategories)
     {
         foreach ($categories as $category) {
-            $category->children = $allCategories->where('parent_id', $category->id)->values();
+            $category->children = $allCategories->where('parent_id', $category->id)->sortByDesc('sort_order')->values();
             $category->is_child = $category->isChild();
             $category->created_at_for_human = $category->created_at->diffForHumans();
             if ($category->children->isNotEmpty()) {

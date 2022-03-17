@@ -157,9 +157,9 @@ export default {
                 return item
             })
 
-            // this.form.post(route('categories.re-order'), {
-            //     preserveScroll: true,
-            // })
+            this.form.post(route('categories.re-order'), {
+                preserveScroll: true,
+            })
 
             console.log(this.form.listSort)
         }, 1000)

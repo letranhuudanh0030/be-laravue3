@@ -21773,10 +21773,10 @@ __webpack_require__.r(__webpack_exports__);
     updateItemOrder: _.debounce(function () {
       this.form.listSort = this.categories.map(function (item, index) {
         return item;
-      }); // this.form.post(route('categories.re-order'), {
-      //     preserveScroll: true,
-      // })
-
+      });
+      this.form.post(route('categories.re-order'), {
+        preserveScroll: true
+      });
       console.log(this.form.listSort);
     }, 1000)
   }

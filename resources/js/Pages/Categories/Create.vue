@@ -69,6 +69,7 @@ export default defineComponent({
     props: {
         categories: {},
         edit: Boolean,
+        sort: Boolean,
         category: Object,
     },
 
@@ -88,11 +89,16 @@ export default defineComponent({
 
     data() {
         return {
-            isParent: this.category.data != null ? (this.category.data.parent || !this.edit ? false : true) : false,
+            // isParent: this.category.data != null ? (this.category.data.parent || !this.edit ? false : true) : false,
+            // isParent: this.category.data.parent_id === null ? (!this.edit ? (this.sort ? true : false) : false) : false,
+            // isParent: _.isEmpty(this.category.data.parent) ? true : false,
+            isParent: false,
             form: this.$inertia.form({
                 name: '',
                 slug: '',
-                parent_id: this.edit ? this.category.data.parent : this.category.data,
+                parent_id: this.edit || this.sort ? this.category.data.parent : this.category.data,
+                sort_order: this.category.data ? this.category.data.sort_order : null,
+                sort: this.sort
             }),
         }
     },
@@ -109,6 +115,9 @@ export default defineComponent({
                 },
             ]
         },
+        // isParent() {
+
+        // }
     },
 
     watch: {
@@ -116,7 +125,7 @@ export default defineComponent({
             this.form.slug = strSlug(name)
         },
         isParent() {
-            this.form.parent_id = this.isParent ? null : this.edit ? this.category.data.parent : this.category.data
+            this.form.parent_id = this.isParent ? null : (this.edit ? this.category.data.parent : this.category.data)
         },
     },
 
@@ -135,6 +144,19 @@ export default defineComponent({
             this.form.name = this.category.data.name
             this.form.slug = this.category.data.slug
         }
+
+        if(_.isEmpty(this.category)){
+            this.isParent = true;
+        }
+
+        else if(_.isEmpty(this.category.data.name)) {
+            this.isParent = true;
+        }
+
+        else if(_.isEmpty(this.category.data.parent) && this.sort){
+            this.isParent = true;
+        }
+
     },
 })
 </script>

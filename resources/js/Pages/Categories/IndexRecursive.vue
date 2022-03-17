@@ -15,7 +15,10 @@
                         </svg>
                     </Link>
                 </div>
-                <Category v-for="category in categories.data" :key="category.id" :category="category" :items="categories" :showAddCategory="showAddCategory" />
+                <!-- <Category v-for="category in categories.data" :key="category.id" :category="category" :items="categories" :showAddCategory="showAddCategory" /> -->
+
+                <CategoryNested :categories="categories.data" :showAddCategory="showAddCategory" />
+
                 <div v-if="categories.data.length > 0 && categories.links" class="mt-4">
                     <SimplePagination :prevUrl="categories.links.prev" :nextUrl="categories.links.next" />
                 </div>
@@ -33,6 +36,7 @@ import AppContainer from '@/Components/Container.vue'
 import AppCard from '@/Components/Card.vue'
 import AppBreadcrumbs from '@/Components/Breadcrumbs.vue'
 import Category from '@/Pages/Categories/Partials/Category.vue'
+import CategoryNested from '@/Pages/Categories/Partials/CategoryNested.vue'
 import SimplePagination from '@/Components/SimplePagination.vue'
 
 export default defineComponent({
@@ -44,6 +48,7 @@ export default defineComponent({
         return {
             showAddCategory: false,
             labelAddCategory: 'Add New',
+
         }
     },
 
@@ -56,6 +61,7 @@ export default defineComponent({
         AppBreadcrumbs,
         Category,
         SimplePagination,
+        CategoryNested,
     },
 
     computed: {

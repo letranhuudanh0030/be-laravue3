@@ -17,15 +17,15 @@ class CategoryRepository implements CategoryRepositoryInterface
             Category::when($withCount, function ($q, $withCount) {
                 return $q->withCount($withCount);
             })
-            ->when($select, function ($q, $select) {
-                return $q->select($select);
-            })
-            ->latest()
-            ->when($limit, function ($q, $limit) {
-                return $q->simplePaginate($limit);
-            }, function ($q) {
-                return $q->get();
-            });
+                ->when($select, function ($q, $select) {
+                    return $q->select($select);
+                })
+                ->latest()
+                ->when($limit, function ($q, $limit) {
+                    return $q->simplePaginate($limit);
+                }, function ($q) {
+                    return $q->get();
+                });
 
         return CategoryResource::collection($list);
     }
@@ -55,5 +55,21 @@ class CategoryRepository implements CategoryRepositoryInterface
     public static function create($data)
     {
         Category::create($data);
+    }
+
+    public static function reOrder($data)
+    {
+        $data = collect($data->listSort);
+        $min = $data->min('sort_order');
+        $max = $data->max('sort_order');
+        $ids = $data->pluck('id');
+        foreach ($ids as $id) {
+
+            if ($max < $min) return;
+
+            Category::where('id', $id)->update([
+                'sort_order' => $max--
+            ]);
+        }
     }
 }

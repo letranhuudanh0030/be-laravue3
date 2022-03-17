@@ -15,7 +15,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </Link>
-                    <Link :href="route('categories.create.recursive', { category: category.id })" v-tooltip:top.tooltip="'Add Below Category'" v-show="showAddCategory">
+
+                    <Link :href="route('categories.create.recursive', { category: category.id, sort: true})" v-tooltip:top.tooltip="'Add Below Category'" v-show="showAddCategory">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
                         </svg>

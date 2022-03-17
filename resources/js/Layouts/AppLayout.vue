@@ -232,7 +232,7 @@
             <main>
                 <FlashMessage />
                 <slot></slot>
-            </main>
+            </main>`
         </div>
     </div>
 </template>

@@ -19,7 +19,8 @@ class CategoriesController extends Controller
 
     private $category;
 
-    function __construct(CategoryRepository $category){
+    function __construct(CategoryRepository $category)
+    {
         $this->category = $category;
     }
 
@@ -32,17 +33,6 @@ class CategoriesController extends Controller
 
     public function indexRecursive()
     {
-        // $parent_ids = Category::select('parent_id')->distinct()->get()->toArray();
-
-        // foreach ($parent_ids as $id){
-        //     $categories = Category::where('parent_id', $id['parent_id'])->get();
-        //     foreach ($categories as $key => $category){
-        //         $category->update(['sort_order' => $key]);
-        //     }
-        // }
-
-
-
         return Inertia::render('Categories/IndexRecursive', [
             'categories' => $this->category->treeList(10, ['articles']),
         ]);
@@ -52,15 +42,21 @@ class CategoriesController extends Controller
     {
         return Inertia::render('Categories/Create', [
             'edit' => false,
-            'category' => (object) [],
+            'category' => (object)[],
             'categories' => $this->category->list(),
         ]);
     }
 
     public function createRecursive(Category $category)
     {
+        $sort = false;
+        if (request('sort')) {
+            $sort = true;
+        }
+
         return Inertia::render('Categories/Create', [
             'edit' => false,
+            'sort' => $sort,
             'category' => $this->category->find($category),
             'categories' => $this->category->list(),
         ]);
@@ -69,7 +65,11 @@ class CategoriesController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         // dd($request->all());
-        $this->category->create($request->validated());
+        $data = $request->validated();
+        if ($request->sort) {
+            $data += ['sort_order' => $request->sort_order];
+        }
+        $this->category->create($data);
         return redirect()->route('categories.index.recursive')->with('success', 'Category saved successfully.');
     }
 
@@ -94,5 +94,12 @@ class CategoriesController extends Controller
         $category->delete();
 
         return redirect()->route('categories.index.recursive')->with('success', 'Category deleted successfully.');
+    }
+
+    public function reOrder(Request $request)
+    {
+        $this->category->reOrder($request);
+
+        return redirect()->route('categories.index.recursive')->with('success', 'Re order successfully.');
     }
 }

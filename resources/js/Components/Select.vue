@@ -28,10 +28,7 @@ export default {
             type: Array,
             required: true,
         },
-        modelValue: {
-            type: Object,
-            required: false,
-        },
+        modelValue: {},
         inputClass: {
             type: String,
             required: false,

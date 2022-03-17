@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\CategoriesController;
+use App\Models\Category;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,7 +18,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/sales', function(){
+Route::get('/sales', function () {
     $report = new Acme\SingleResponsibility\Reporting\SalesReporter(new Acme\SingleResponsibility\Repositories\SalesRepository);
 
     $begin = Carbon\Carbon::now()->subDays(10);
@@ -31,6 +32,17 @@ Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+        Route::get('auto-sort', function () {
+            $parent_ids = Category::select('parent_id')->distinct()->get()->toArray();
+
+            foreach ($parent_ids as $id) {
+                $categories = Category::where('parent_id', $id['parent_id'])->get();
+                foreach ($categories as $key => $category) {
+                    $category->update(['sort_order' => $key]);
+                }
+            }
+        });
+
         Route::controller(SettingsController::class)->prefix('settings')->group(function () {
             Route::get('/', 'create')->name('settings.create');
             Route::post('save-hero', 'saveHero')->name('settings.save-hero');
@@ -40,7 +52,8 @@ Route::middleware(['auth', 'verified'])
 
         Route::controller(CategoriesController::class)->prefix('categories')->group(function () {
             Route::get('index-recursive', 'indexRecursive')->name('categories.index.recursive');
-            Route::get('create-recursive/{category?}', 'createRecursive')->name('categories.create.recursive');
+            Route::get('create-recursive/{category?}/{sort?}', 'createRecursive')->name('categories.create.recursive');
+            Route::post('create-recursive/re-order', 'reOrder')->name('categories.re-order');
         });
 
         Route::controller(ArticlesController::class)->prefix('articles')->group(function () {
